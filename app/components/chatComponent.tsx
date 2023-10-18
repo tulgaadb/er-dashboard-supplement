@@ -92,6 +92,7 @@ export default function ChatComponent() {
             placeholder="Send a message"
             value={input}
             size="md"
+            w={"85%"}
             onChange={handleInputChange}
           />
 

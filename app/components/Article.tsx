@@ -13,7 +13,7 @@ const Article = ({
   website,
 }: IArticle) => {
   return (
-    <Card withBorder radius="md" p={"0.5rem"} className={classes.card}>
+    <Card withBorder radius="md">
       <a
         href={link}
         target="_blank"
@@ -23,8 +23,8 @@ const Article = ({
           <Image
             src={thumbnail}
             alt={thumbnail}
-            w={"15vw"}
-            h={"15vh"}
+            w={"14vh"}
+            h={"14vh"}
             style={{ aspectRatio: "1/1", objectFit: "cover" }}
           />
           <div className={classes.body}>
@@ -34,7 +34,7 @@ const Article = ({
             <Text
               fz="sm"
               c="dimmed"
-              lineClamp={4}
+              lineClamp={3}
               style={{
                 WebkitLineClamp: 3,
                 display: "-webkit-box",
