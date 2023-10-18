@@ -23,8 +23,8 @@ const Article = ({
           <Image
             src={thumbnail}
             alt={thumbnail}
-            w={"20vh"}
-            h={"20vh"}
+            w={"150"}
+            h={"150"}
             style={{ aspectRatio: "1/1", objectFit: "cover" }}
           />
           <div className={classes.body}>
