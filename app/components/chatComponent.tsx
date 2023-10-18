@@ -53,7 +53,12 @@ export default function ChatComponent() {
                               )}
                             </div>
                           </Group>
-                          <Text key={message.id + index} size="sm">
+                          <Text
+                            key={message.id + index}
+                            fz="sm"
+                            c="dimmed"
+                            size="sm"
+                          >
                             &nbsp;
                           </Text>
                         </Paper>
@@ -72,7 +77,12 @@ export default function ChatComponent() {
                               )}
                             </div>
                           </Group>
-                          <Text key={message.id + index} size="sm">
+                          <Text
+                            key={message.id + index}
+                            fz="sm"
+                            c="dimmed"
+                            size="sm"
+                          >
                             {currentTextBlock}
                           </Text>
                         </Paper>
@@ -92,7 +102,7 @@ export default function ChatComponent() {
             placeholder="Send a message"
             value={input}
             size="md"
-            w={"85%"}
+            w={"75%"}
             onChange={handleInputChange}
           />
 

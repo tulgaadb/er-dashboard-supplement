@@ -7,7 +7,7 @@ import { Container } from "@mantine/core";
 const Chat = () => {
   return (
     <Container px={0} mt={8} size="xs">
-      <h2 className="text-2xl">GPT-4 Streaming Chat Application</h2>
+      <h3>Your chat assistant</h3>
       <ChatComponent />
     </Container>
   );
