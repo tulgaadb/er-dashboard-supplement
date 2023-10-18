@@ -11,7 +11,9 @@
   "dependencies": {
     "@mantine/core": "7.1.3",
     "@mantine/hooks": "7.1.3",
+    "ai": "^2.2.16",
     "next": "13.4.4",
+    "openai-edge": "^1.2.2",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
