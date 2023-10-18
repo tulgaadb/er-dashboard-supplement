@@ -37,7 +37,23 @@ export default function ChatComponent() {
           return (
             <div key={message.id}>
               {/* Formatting the message */}
-              {message.content
+
+              <Paper radius="sm" p={4} m={4}>
+                <Group>
+                  <div>
+                    {message.role === "assistant" ? (
+                      <h3>GPT-4</h3>
+                    ) : (
+                      <h3>User</h3>
+                    )}
+                  </div>
+                </Group>
+                <Text fz="sm" c="dimmed" size="sm">
+                  {message.content}
+                </Text>
+              </Paper>
+
+              {/* {message.content
                 .split("\n")
                 .map((currentTextBlock: string, index: number) => {
                   if (currentTextBlock === "") {
@@ -89,7 +105,7 @@ export default function ChatComponent() {
                       </>
                     );
                   }
-                })}
+                })} */}
             </div>
           );
         })}
