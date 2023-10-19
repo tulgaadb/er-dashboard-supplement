@@ -42,70 +42,16 @@ export default function ChatComponent() {
                 <Group>
                   <div>
                     {message.role === "assistant" ? (
-                      <h3>GPT-4</h3>
+                      <h6>GPT-4</h6>
                     ) : (
-                      <h3>User</h3>
+                      <h6>User</h6>
                     )}
                   </div>
                 </Group>
-                <Text fz="sm" c="dimmed" size="sm">
+                <Text fz="xs" c="dimmed" size="xs">
                   {message.content}
                 </Text>
               </Paper>
-
-              {/* {message.content
-                .split("\n")
-                .map((currentTextBlock: string, index: number) => {
-                  if (currentTextBlock === "") {
-                    return (
-                      <>
-                        <Paper radius="sm" p={4} m={4}>
-                          <Group>
-                            <div>
-                              {message.role === "assistant" ? (
-                                <h3>GPT-4</h3>
-                              ) : (
-                                <h3>User</h3>
-                              )}
-                            </div>
-                          </Group>
-                          <Text
-                            key={message.id + index}
-                            fz="sm"
-                            c="dimmed"
-                            size="sm"
-                          >
-                            &nbsp;
-                          </Text>
-                        </Paper>
-                      </>
-                    );
-                  } else {
-                    return (
-                      <>
-                        <Paper radius="sm" p={4} m={4}>
-                          <Group>
-                            <div>
-                              {message.role === "assistant" ? (
-                                <h3>GPT-4</h3>
-                              ) : (
-                                <h3>User</h3>
-                              )}
-                            </div>
-                          </Group>
-                          <Text
-                            key={message.id + index}
-                            fz="sm"
-                            c="dimmed"
-                            size="sm"
-                          >
-                            {currentTextBlock}
-                          </Text>
-                        </Paper>
-                      </>
-                    );
-                  }
-                })} */}
             </div>
           );
         })}
@@ -117,7 +63,7 @@ export default function ChatComponent() {
           <Textarea
             placeholder="Send a message"
             value={input}
-            size="md"
+            size="sm"
             w={"75%"}
             onChange={handleInputChange}
           />
