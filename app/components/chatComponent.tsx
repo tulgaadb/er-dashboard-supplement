@@ -45,16 +45,19 @@ export default function ChatComponent() {
               {/* Formatting the message */}
 
               <Paper radius="sm" p={4} m={4}>
-                <Group>
-                  <div>
-                    {message.role === "assistant" ? (
-                      <h6>GPT-4</h6>
-                    ) : (
-                      <h6>User</h6>
-                    )}
-                  </div>
-                </Group>
-                <Text fz="xs" c="dimmed" size="xs">
+                <div>
+                  {message.role === "assistant" ? (
+                    <Text size="sm" fw={600}>
+                      GPT-4
+                    </Text>
+                  ) : (
+                    <Text size="sm" fw={600}>
+                      User
+                    </Text>
+                  )}
+                </div>
+
+                <Text size="xs" pt={8}>
                   {message.content}
                 </Text>
               </Paper>
