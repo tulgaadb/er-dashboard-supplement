@@ -1,5 +1,11 @@
 "use client";
 import { useChat, Message } from "ai/react";
+import { Roboto } from "next/font/google";
+
+const roboto = Roboto({
+  weight: "400",
+  subsets: ["latin"],
+});
 
 import {
   Card,

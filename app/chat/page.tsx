@@ -7,6 +7,7 @@ import { Container } from "@mantine/core";
 const Chat = () => {
   return (
     <Container px={0} mt={8} size="xs">
+      <h3>AI helper</h3>
       <ChatComponent />
     </Container>
   );
