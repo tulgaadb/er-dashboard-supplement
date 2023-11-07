@@ -3,15 +3,9 @@ import { IArticle } from "../Interfaces";
 import classes from "./ArticleCardVertical.module.css";
 
 import { Card, Image, Text, Group } from "@mantine/core";
+import { combinedNews } from "../news/page";
 
-const Article = ({
-  thumbnail,
-  title,
-  content,
-  date,
-  link,
-  website,
-}: IArticle) => {
+const Article = ({ date, link, source, summary, title }: combinedNews) => {
   return (
     <Card withBorder radius="md">
       <a
@@ -20,13 +14,6 @@ const Article = ({
         style={{ all: "unset", cursor: "pointer" }}
       >
         <Group wrap="nowrap" gap={"sm"}>
-          <Image
-            src={thumbnail}
-            alt={thumbnail}
-            w={"150"}
-            h={"150"}
-            style={{ aspectRatio: "1/1", objectFit: "cover" }}
-          />
           <div className={classes.body}>
             <Text className={classes.title} mt="xs" mb="md">
               {title}
@@ -41,11 +28,11 @@ const Article = ({
                 WebkitBoxOrien: "vertical",
               }}
             >
-              {content}
+              {summary}
             </Text>
             <Group wrap="nowrap" gap="xs">
               <Group gap="xs" wrap="nowrap">
-                <Text size="xs">{website}</Text>
+                <Text size="xs">{source}</Text>
               </Group>
               <Text size="xs" c="dimmed">
                 •
