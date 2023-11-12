@@ -49,7 +49,7 @@ export async function mySteel() {
     channelId: 6945,
     startDate: "2023-05-30",
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 5,
     breedCode: "010301",
   });
 
@@ -70,8 +70,8 @@ export async function mySteel() {
     channelId: 6945,
     startDate: "2023-05-30",
     pageNum: 1,
-    pageSize: 10,
-    breedCode: "010301",
+    pageSize: 5,
+    breedCode: "010302",
   });
 
   requestOptions = {
@@ -87,6 +87,7 @@ export async function mySteel() {
   );
 
   const cokeResponse = await coke.json();
+
   const news = (coalResponse.data.pageData || [])
     .concat(cokeResponse.data.pageData || [])
     ?.map((n: pageData) => {
@@ -98,6 +99,8 @@ export async function mySteel() {
         source: "https://www.mysteel.net",
       };
     });
+
+  return news;
 }
 
 function parseHtmlToObjects(html: string) {
@@ -169,7 +172,7 @@ export async function sxcoalNews() {
   );
   myHeaders.append("x-requested-with", "XMLHttpRequest");
 
-  var raw = "cat=0&industry=74%2C&bel=16%2C7%2C";
+  var raw = "cat=0&industry=77%2C74%2C71%2C70%2C&bel=6%2C";
 
   var requestOptions: RequestInit = {
     method: "POST",

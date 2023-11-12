@@ -14,6 +14,8 @@ export interface combinedNews {
   source: string;
 }
 
+export const revalidate = 3600;
+
 async function getData() {
   const mysteel = await mySteel();
   const sxcoal = await sxcoalNews();
@@ -28,6 +30,7 @@ async function getData() {
 
 const News = async () => {
   const data = await getData();
+
   if (data === undefined) {
     return <></>;
   }
