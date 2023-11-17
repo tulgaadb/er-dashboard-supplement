@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { sxcoalNews } from "../../../../helper/news";
-import { combinedNews } from "../../../../news/page";
+import { sxcoalNews } from "../../../../app/helper/news";
+import { combinedNews } from "../../../../app/news/page";
 
 type MySteelNews = {
   data: {
