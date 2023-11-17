@@ -188,16 +188,28 @@ export async function sxcoalNews() {
       method: "POST",
     }
   );
+  const regex = /<p>.*?<\/p>/gs;
 
   const coal = (await coalResponse.json()) as SXCoalResponse;
   const { data } = coal;
   const { records } = data;
 
   const sxcoalParsed = records.map((sxcl: sxcoalRecordData) => {
+    let modifiedSummary = sxcl.summary;
+    if (sxcl.summary.match(regex)) {
+      modifiedSummary = sxcl.summary
+        .match(regex)
+        ?.map((c: string) => {
+          return c.replace(/<[^>]*>/g, "");
+        })
+        .join()
+        .toString()!;
+    }
+
     return {
       title: sxcl.title,
       date: sxcl.showTime.substring(0, 10),
-      summary: sxcl.summary,
+      summary: modifiedSummary,
       link: "https://www.sxcoal.com/en/news/detail/" + sxcl.id,
       source: "https://www.sxcoal.com",
       path: `/news/sxcoal/${sxcl.id}`,

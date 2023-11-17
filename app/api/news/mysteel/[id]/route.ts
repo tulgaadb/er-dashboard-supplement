@@ -13,6 +13,16 @@ type MySteelNews = {
 
 export async function GET(request: Request) {
   try {
+    const { url } = request;
+    const val = url.split("/mysteel/");
+    if (val.length !== 2) {
+      return NextResponse.json({
+        message: "ERROR",
+        success: false,
+        data: {},
+      });
+    }
+    const id = val[1];
     var myHeaders = new Headers();
 
     var requestOptions: RequestInit = {
@@ -32,19 +42,13 @@ export async function GET(request: Request) {
     articleHeaders.append("Cookie", userHeader!);
 
     const articleResponse = await fetch(
-      "https://www.mysteel.net/english/article/findById?articleId=5044774",
+      `https://www.mysteel.net/english/article/findById?articleId=${id}`,
       { method: "GET", headers: articleHeaders, redirect: "follow" }
     );
     const article = (await articleResponse.json()) as MySteelNews;
+    console.log("🚀 ~ file: route.ts:49 ~ GET ~ article:", article);
     const { content, title, summary, showTime } = article.data;
-
-    const regex = /<p>.*?<\/p>/gs;
-    const paragraph = content
-      .match(regex)
-      ?.map((c: string) => {
-        return c.replace(/<[^>]*>/g, "");
-      })
-      .filter((string) => string.trim() !== "");
+    console.log("🚀 ~ file: route.ts:50 ~ GET ~ summary:", summary);
 
     return NextResponse.json({
       message: "Success",
@@ -53,14 +57,17 @@ export async function GET(request: Request) {
         title,
         summary,
         date: new Date(showTime).toISOString().substring(0, 10),
-        paragraph,
+        content,
+        link: `https://www.mysteel.net/news/all/${id}`,
+        source: "mysteel",
       },
     });
   } catch (error) {
     console.log("🚀 ~ file: route.ts:49 ~ GET ~ error:", error);
     return NextResponse.json({
       message: "ERROR",
-      success: true,
+      success: false,
+      data: {},
     });
   }
 }
