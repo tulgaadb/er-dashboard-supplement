@@ -1,12 +1,32 @@
 import { JSDOM } from "jsdom";
 
-interface sxcoalData {
+const fs = require("fs");
+
+export interface sxcoalRecordData {
+  id: string;
+  type: number;
+  typeName: string;
   title: string;
-  link: string;
-  date: string;
-  categories: string;
-  source: string;
   summary: string;
+  content: string;
+  showTime: string;
+  browsePermission: number;
+  newsForcePictureList: never[];
+  weekStr: string;
+}
+
+interface SXCoalResponse {
+  code: number;
+  message: string;
+  timestamp: string;
+  data: {
+    records: sxcoalRecordData[];
+    total: number;
+    size: number;
+    current: number;
+    pages: number;
+    statisticsHeader: null;
+  };
 }
 interface pageData {
   alt: string;
@@ -58,6 +78,7 @@ export async function mySteel() {
     headers: myHeaders,
     body: raw,
     redirect: "follow",
+    cache: "no-store",
   };
 
   const coal = await fetch(
@@ -79,6 +100,7 @@ export async function mySteel() {
     headers: myHeaders,
     body: raw,
     redirect: "follow",
+    cache: "no-store",
   };
 
   const coke = await fetch(
@@ -97,6 +119,8 @@ export async function mySteel() {
         summary: n.summary,
         link: "https://www.mysteel.net" + n.articleUrl,
         source: "https://www.mysteel.net",
+        path: `/news/mysteel/${n.id}`,
+        id: n.id,
       };
     });
 
@@ -138,66 +162,48 @@ function parseHtmlToObjects(html: string) {
   return result;
 }
 export async function sxcoalNews() {
-  var myHeaders = new Headers();
-  myHeaders.append("authority", "www.sxcoal.com");
-  myHeaders.append("accept", "*/*");
-  myHeaders.append("accept-language", "en-US,en;q=0.9");
-  myHeaders.append(
-    "content-type",
-    "application/x-www-form-urlencoded; charset=UTF-8"
-  );
-  myHeaders.append(
-    "cookie",
-    "PHPSESSID=kdg0kh8abk0jsud2mvpaom99a3; _csrf=30fa250bd835cd2a1e2aa2d70d0353f480ec9c4a72e3d0dfebfb842bc9470485a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22ouAq_f8Wh_O9l6chNo_OCW87tXQBlh2b%22%3B%7D; ApplicationGatewayAffinity=b870528a4f2131627cfcb0f6cdc0282383b206a592eff273715dfea7a2c1ed17; ApplicationGatewayAffinityCORS=b870528a4f2131627cfcb0f6cdc0282383b206a592eff273715dfea7a2c1ed17"
-  );
-  myHeaders.append("origin", "https://www.sxcoal.com");
-  myHeaders.append("referer", "https://www.sxcoal.com/news/index/en");
-  myHeaders.append(
-    "sec-ch-ua",
-    '"Chromium";v="118", "Brave";v="118", "Not=A?Brand";v="99"'
-  );
-  myHeaders.append("sec-ch-ua-mobile", "?0");
-  myHeaders.append("sec-ch-ua-platform", '"macOS"');
-  myHeaders.append("sec-fetch-dest", "empty");
-  myHeaders.append("sec-fetch-mode", "cors");
-  myHeaders.append("sec-fetch-site", "same-origin");
-  myHeaders.append("sec-gpc", "1");
-  myHeaders.append(
-    "user-agent",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
-  );
-  myHeaders.append(
-    "x-csrf-token",
-    "N1F3RElYdUtYJDY1Fj5NHF8OOH0lbhYjeT4oCwoPTXxDCSYGJTBHKQ=="
-  );
-  myHeaders.append("x-requested-with", "XMLHttpRequest");
+  const coalResponse = await fetch(
+    "https://www.sxcoal.com/api/coalresource-journalism/news/LatestNewsPage",
+    {
+      headers: {
+        accept: "*/*",
+        "accept-language": "en-US,en;q=0.8",
+        "cache-control": "max-age=0",
+        "content-type": "application/json",
+        lang: "en_US",
+        responsetype: "blob",
+        "sec-ch-ua":
+          '"Brave";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"macOS"',
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-origin",
+        "sec-gpc": "1",
 
-  var raw = "cat=0&industry=77%2C74%2C71%2C70%2C&bel=6%2C";
-
-  var requestOptions: RequestInit = {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-    redirect: "follow",
-  };
-
-  const response = await fetch(
-    "https://www.sxcoal.com/news/cat-ajax?page=1&lang=en",
-    requestOptions
-  );
-
-  const coalResponse = await response.json();
-
-  const sxcoalParsed = parseHtmlToObjects(coalResponse?.list).map(
-    (sxcl: sxcoalData) => {
-      return {
-        title: sxcl.title,
-        date: sxcl.date.substring(0, 10),
-        summary: sxcl.summary,
-        link: sxcl.link,
-        source: sxcl.source,
-      };
+        Referer: "https://www.sxcoal.com/en/news",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+      },
+      body: '{"content":"","pageNum":1,"pageSize":20,"labelId":["11006","51070","51071","51074","51077"]}',
+      method: "POST",
     }
   );
+
+  const coal = (await coalResponse.json()) as SXCoalResponse;
+  const { data } = coal;
+  const { records } = data;
+
+  const sxcoalParsed = records.map((sxcl: sxcoalRecordData) => {
+    return {
+      title: sxcl.title,
+      date: sxcl.showTime.substring(0, 10),
+      summary: sxcl.summary,
+      link: "https://www.sxcoal.com/en/news/detail/" + sxcl.id,
+      source: "https://www.sxcoal.com",
+      path: `/news/sxcoal/${sxcl.id}`,
+      content: sxcl.content,
+      id: sxcl.id,
+    };
+  });
   return sxcoalParsed;
 }

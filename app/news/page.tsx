@@ -12,20 +12,25 @@ export interface combinedNews {
   summary: string;
   link: string;
   source: string;
+  content?: string;
+  id?: string;
+  path?: string;
 }
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 async function getData() {
   const mysteel = await mySteel();
   const sxcoal = await sxcoalNews();
 
-  return sxcoal.concat(mysteel).sort((a: combinedNews, b: combinedNews) => {
-    return (
-      (new Date(b.date) as unknown as number) -
-      (new Date(a.date) as unknown as number)
-    );
-  });
+  return (sxcoal.slice(0, 5) || [])
+    .concat(mysteel)
+    .sort((a: combinedNews, b: combinedNews) => {
+      return (
+        (new Date(b.date) as unknown as number) -
+        (new Date(a.date) as unknown as number)
+      );
+    });
 }
 
 const News = async () => {

@@ -4,12 +4,21 @@ import classes from "./ArticleCardVertical.module.css";
 
 import { Card, Image, Text, Group } from "@mantine/core";
 import { combinedNews } from "../news/page";
+import Link from "next/link";
 
-const Article = ({ date, link, source, summary, title }: combinedNews) => {
+const Article = ({
+  date,
+  link,
+  source,
+  summary,
+  title,
+  path,
+  content,
+}: combinedNews) => {
   return (
     <Card withBorder radius="md">
-      <a
-        href={link}
+      <Link
+        href={path!}
         target="_blank"
         style={{ all: "unset", cursor: "pointer" }}
       >
@@ -43,7 +52,7 @@ const Article = ({ date, link, source, summary, title }: combinedNews) => {
             </Group>
           </div>
         </Group>
-      </a>
+      </Link>
     </Card>
   );
 };
