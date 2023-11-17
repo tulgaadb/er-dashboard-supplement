@@ -15,7 +15,7 @@ interface IArticle {
 
 async function getArticle(id: string, source: string): Promise<IArticle> {
   const articleResponse = await fetch(
-    `http://localhost:3000/api/news/${source}/${id}`
+    `${process.env.BASE_URL}/api/news/${source}/${id}`
   );
   const article = await articleResponse.json();
   return article;
